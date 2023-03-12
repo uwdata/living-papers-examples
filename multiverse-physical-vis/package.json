@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "@living-papers/example-multiverse-physical-vis",
+  "license": "BSD-3-Clause",
+  "repository": "uwdata/living-papers-examples",
+  "scripts": {
+    "assets": "mkdirp build && cp -r assets build",
+    "clean": "rimraf .cache .temp build",
+    "prebuild": "npm run assets",
+    "build": "lpub -o build --tempDir='.temp' index.md",
+    "prewatch": "npm run assets",
+    "watch": "lpub -o build --tempDir='.temp' --watch index.md",
+    "predeploy": "rimraf ../../docs",
+    "deploy": "cp build ../../docs -r"
+  },
+  "devDependencies": {
+    "@living-papers/ast": "^0.0.9",
+    "@living-papers/cli": "^0.0.9",
+    "@living-papers/components": "^0.0.9",
+    "gh-pages": "^5.0.0",
+    "mkdirp": "^2.1.5",
+    "rimraf": "^4.4.0"
+  },
+  "living-papers": {
+    "components": [
+      {
+        "name": "tangle-toggle",
+        "import": "TangleToggle",
+        "file": "src/tangle-toggle.js",
+        "css": "src/tangle.css"
+      },
+      {
+        "name": "tangle-options",
+        "import": "TangleOptions",
+        "file": "src/tangle-options.js",
+        "css": "src/tangle.css"
+      }
+    ]
+  }
+}

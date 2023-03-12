@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "living-papers-examples",
+  "description": "Example Living Papers articles.",
+  "license": "BSD-3-Clause",
+  "repository": "uwdata/living-papers-examples",
+  "workspaces": [
+    "*"
+  ]
+}

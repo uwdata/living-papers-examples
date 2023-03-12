@@ -1,0 +1,44 @@
+:root {
+	/* --max-article-width: 100ex; */
+	--gap-width: 50px;
+	--margin-width: 500px;
+}
+
+.sticky:has(#fig2) {
+	top: 32px;
+}
+
+.figures-aside {
+	max-height: calc(100vh - 2 * var(--article-padding));
+	overflow-y: auto;
+	padding-right: 12px;
+}
+
+.maug {
+	color: blueviolet;
+}
+
+.maug {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.maug:hover {
+	background: rgba(103, 176, 202, 0.22);
+}
+
+.maug-fx, .maug-ff { color: blue; }
+.maug-fprimex, .maug-q { color: darkblue; }
+.maug-fprimeprimex { color: darkslateblue; }
+.maug-fxh { color: blue; }
+.maug-gx, .maug-gg { color: darkgreen; }
+.maug-gprimex, .maug-p { color: darkolivegreen; }
+.maug-dxh { color: darkblue; }
+.maug-alpha, .maug-z { color: violet; }
+.maug-beta, .maug-c { color: rebeccapurple; }
+.maug-wx, .maug-error { color: darkred; }
+.maug-h { color: purple; }
+.maug-x, .maug-xx { color: red; }
+.maug-r { color: orange; }
+.maug-n, .maug-m { color: sienna; }
+.maug-a { color: darkred; }
