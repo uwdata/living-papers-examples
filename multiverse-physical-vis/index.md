@@ -87,84 +87,70 @@ function formatProb(value) {
   }
   return value;
 }
-```
-``` js { hide=true }
+---
 function formatPercentage(value) {
   value = formatProb(value / 100) * 100;
   // extra tweak to prevent strange javascript rounding errors
   value = Math.round(value * 100000000) / 100000000;
   return value + "%";
 }
-```
-``` js { hide=true }
+---
 bootstrap =  true;
-```
-``` js { hide=true }
+---
 log_transform = true;
-```
-``` js { hide=true }
+---
 bonferroni = true;
-```
-``` js { hide=true }
+---
 n_comparisons = 3;
-```
-``` js { hide=true }
+---
 confidence_level = 50;
-```
-``` js { hide=true }
+---
 file_suffix = `${Math.round(confidence_level * 10) / 1000}${bootstrap ? "-bootstrapped" : ""}${log_transform ? "-log-transformed" : ""}${bonferroni ? "-bonferroni-adjusted" : ""}.jpg`;
-```
-``` js { hide=true }
+---
 fig1 = `assets/R/fig1-${file_suffix}`;
-```
-``` js { hide=true }
+---
 fig2 = `assets/R/fig2-${file_suffix}`;
-```
-```js { hide=true }
+---
 alpha_level = 1 - confidence_level / 100;
-```
-```js { hide=true }
+---
 cite_sauro_lewis = !bootstrap && log_transform;
-```
-```js { hide=true }
+---
 individual_alpha_level = bonferroni ? alpha_level / n_comparisons : alpha_level;
-```
-```js { hide=true }
+---
 individual_confidence_level = bonferroni ? 100 * (1 - individual_alpha_level) : confidence_level;
-```
-```js { hide=true }
+---
 familywise_error_rate = 1 - Math.pow((1-individual_alpha_level), n_comparisons);
-```
-```js { hide=true }
+---
 simultaneous_confidence_level = 100 * (1 - familywise_error_rate);
 ```
 
-::: figure {#fig1 position="t"}
-```js
-html`<img src="${fig1}" style="width:100%; height:225px;">`;
-```
+::: figure {#fig1}
+[:img:]{src=`fig1` width=100% height=225px}
 | Average task completion time `js log_transform ? "(arithmetic mean)" : "(geometric mean)"` for each condition. Error bars are `js formatPercentage(confidence_level)` t-based CIs.
 :::
 
-We focus our analysis on task completion times, reported in @fig:fig1 and @fig:fig2. Dots indicate sample means, while error bars are [:tangle-options:]{values=[50,68,80,90,95,99,99.9] value="50" display="(x) => x + '%'" span=5 bind=confidence_level} confidence intervals computed on [:tangle-toggle:]{values=["untransformed\ data","log-transformed\ data\ [@Sauro2010]"] bind=log_transform} using the [:tangle-toggle:]{values=["t-distribution","BCa\ bootstrap\ [@Kirby2013]"] bind=bootstrap} method.
+We focus our analysis on task completion times, reported in @fig:fig1 and @fig:fig2.
+Dots indicate sample means, while error bars are [:tangle-options:]{values=[50,68,80,90,95,99,99.9] value="50" display="(x) => x + '%'" span=5 bind=confidence_level} confidence intervals computed on [:tangle-toggle:]{values=["untransformed\ data","log-transformed\ data\ [@Sauro2010]"] bind=log_transform} using the [:tangle-toggle:]{values=["t-distribution","BCa\ bootstrap\ [@Kirby2013]"] bind=bootstrap} method.
 
-Strictly speaking, all we can assert about each interval is that it comes from a procedure designed to capture the population mean `js formatPercentage(confidence_level)` of the time across replications, under some assumptions [@Morey2016]. In practice, if we assume we have very little prior knowledge about population means, each interval can be informally interpreted as a range of plausible values for the population mean, with the midpoint being `js confidence_level === 95 ? "about 7 times" : ""` more likely than the endpoints [@Cumming2012].
+Strictly speaking, all we can assert about each interval is that it comes from a procedure designed to capture the population mean `js formatPercentage(confidence_level)` of the time across replications, under some assumptions [@Morey2016].
+In practice, if we assume we have very little prior knowledge about population means, each interval can be informally interpreted as a range of plausible values for the population mean, with the midpoint being `js confidence_level === 95 ? "about 7 times" : ""` more likely than the endpoints [@Cumming2012].
 
-@fig:fig1 shows the `js log_transform ? "mean" : "(geometric)"` completion time for each condition. At first sight, *physical touch* appears to be faster than the other conditions. However, since condition is a within-subject factor, it is preferable to examine within-subject differences [@Cumming2012], shown in @fig:fig2.
+@fig:fig1 shows the `js log_transform ? "mean" : "(geometric)"` completion time for each condition.
+At first sight, *physical touch* appears to be faster than the other conditions.
+However, since condition is a within-subject factor, it is preferable to examine within-subject differences [@Cumming2012], shown in @fig:fig2.
 
-@fig:fig2 shows the pairwise `js log_transform ? "differences" : "ratios"` between mean completion times. A value lower than `js log_transform ? 0 : 1` (i.e., on the left side of the dark line) means the condition on the left is faster than the condition on the right. The confidence intervals are [:tangle-toggle:]{values=["not\ corrected\ for\ multiplicity.","Bonferroni-corrected"] bind=bonferroni}
-`js bonferroni ?
-"Since the individual confidence level is " + formatPercentage(confidence_level) + ","
-:
-"meaning they are effectively " + formatPercentage(individual_confidence_level) + " CIs [@Baguley2012]. Thus,"
-`
-an interval that does not contain the value `js log_transform ? 0 : 1` indicates a statistically significant difference at the α=`js formatProb(individual_alpha_level)` level. The probability of getting at least one such interval if all `js n_comparisons` population means were zero (i.e., the familywise error rate) is α=`js formatProb(familywise_error_rate)`. Likewise, the simultaneous confidence level is `js formatPercentage(simultaneous_confidence_level)`, meaning that if we replicate our experiment over and over, we should expect the `js n_comparisons` confidence intervals to capture all `js n_comparisons` population means `js formatPercentage(simultaneous_confidence_level)` of the time.
+@fig:fig2 shows the pairwise `js log_transform ? "differences" : "ratios"` between mean completion times.
+A value lower than `js log_transform ? 0 : 1` (i.e., on the left side of the dark line) means the condition on the left is faster than the condition on the right.
+The confidence intervals are [:tangle-toggle:]{values=["Bonferroni-corrected","not\ corrected\ for\ multiplicity"] bind=bonferroni}.
+[:show-text: Since the individual confidence level is `js formatPercentage(confidence_level)`,]{if=`bonferroni`}
+[:show-text: meaning they are effectively `js formatPercentage(individual_confidence_level)` CIs [@Baguley2012]. Thus,]{if=`!bonferroni`}
+an interval that does not contain the value `js log_transform ? 0 : 1` indicates a statistically significant difference at the α=`js formatProb(individual_alpha_level)` level.
+The probability of getting at least one such interval if all `js n_comparisons` population means were zero (i.e., the familywise error rate) is α=`js formatProb(familywise_error_rate)`.
+Likewise, the simultaneous confidence level is `js formatPercentage(simultaneous_confidence_level)`, meaning that if we replicate our experiment over and over, we should expect the `js n_comparisons` confidence intervals to capture all `js n_comparisons` population means `js formatPercentage(simultaneous_confidence_level)` of the time.
 
-::: figure {#fig2 position="t"}
-```js
-html`<img src="${fig2}" style="width:100%; height:225px;">`;
-```
-| `js log_transform ? "Differences between mean completion times (arithmetic means)" : "Ratios between average task completion times (geometric means)"` between conditions. Error bars are `js bonferroni ? "" : "Bonferroni-corrected"` `js formatPercentage(confidence_level)` `js bootstrap ? "t-based" : "BCa bootstrap"` CIs.
+::: figure {#fig2}
+[:img:]{src=`fig2` width=100% height=225px}
+| [:show-text: Differences between mean completion times (arithmetic means)]{if=`log_transform`}[:show-text: Ratios between average task completion times (geometric means)]{if=`!log_transform`} between conditions. Error bars are [:show-text: Bonferroni-corrected]{if=`bonferroni`}[:show-text: `js formatPercentage(confidence_level)`]{if=`!bonferroni`} [:show-text: t-based]{if=`bootstrap`}[:show-text: BCa bootstrap]{if=`!bootstrap`} CIs.
 :::
 
 @fig:fig2 provides good evidence that *i)* *physical touch* is faster on average than *physical no touch*, and that *ii)* *physical no touch* is faster than *virtual prop*. This suggests that both visual realism (e.g., rich depth cues) and physical touch can facilitate basic information retrieval. Importantly, these two properties are unique to physical objects and are hard to faithfully reproduce in virtual setups. In contrast, we could not find evidence that physical object rotation (as opposed to mouse-operated rotation) provides a performance advantage for information retrieval.

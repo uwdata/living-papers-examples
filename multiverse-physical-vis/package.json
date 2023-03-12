@@ -25,6 +25,11 @@
   "living-papers": {
     "components": [
       {
+        "name": "show-text",
+        "import": "ShowText",
+        "file": "src/show-text.js"
+      },
+      {
         "name": "tangle-toggle",
         "import": "TangleToggle",
         "file": "src/tangle-toggle.js",
