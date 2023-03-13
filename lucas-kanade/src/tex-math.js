@@ -17,11 +17,10 @@ export class TexMath extends DependentElement {
     return {
       mode: { type: String },
       code: { type: String },
-      maugs: { type: String },
+      maug: { type: String },
       leqno: { type: Boolean },
       fleqn: { type: Boolean, converter: v => v !== 'false' },
-      minRuleThickness: { type: Number },
-      definitions: { type: Array }
+      minRuleThickness: { type: Number }
     };
   }
 
@@ -30,7 +29,6 @@ export class TexMath extends DependentElement {
     this.mode = 'display';
     this.leqno = false;
     this.fleqn = false;
-    this.definitions = this.hasAttribute('definitions') ? JSON.parse(this.getAttribute('definitions')) : [];
   }
 
   initialChildNodes(nodes) {
@@ -41,7 +39,7 @@ export class TexMath extends DependentElement {
   }
 
   addAugmentations() {
-    let code = this.maugs || this.code;
+    let code = this.maug || this.code;
     for (let i = 0; i < this.definitions.length; i++) {
       const { replace, symbol, id } = this.definitions[i];
       code = code.replaceAll(replace, `\\htmlClass{maug maug-${id}}{${symbol}}`);
@@ -50,6 +48,9 @@ export class TexMath extends DependentElement {
   }
 
   prepareMath() {
+    if (!this.definitions) {
+      this.definitions = this.articleData()?.definitions || [];
+    }
     return this.addAugmentations();
   }
 

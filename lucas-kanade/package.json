@@ -15,9 +15,9 @@
     "deploy": "cp build ../../docs -r"
   },
   "devDependencies": {
-    "@living-papers/ast": "^0.0.9",
-    "@living-papers/cli": "^0.0.9",
-    "@living-papers/components": "^0.0.9",
+    "@living-papers/ast": "^0.1.0",
+    "@living-papers/cli": "^0.1.0",
+    "@living-papers/components": "^0.1.0",
     "gh-pages": "^5.0.0",
     "mkdirp": "^2.1.5",
     "rimraf": "^4.4.0"

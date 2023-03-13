@@ -40,8 +40,6 @@ Tu Nguyen and Vishal Devireddy for CSE 599D.
 Today, this 1981 paper is known for introducing the
 [Lucas–Kanade method](https://en.wikipedia.org/wiki/Lucas%E2%80%93Kanade_method) for optical flow estimation.
 
-[Source code (GitHub)](https://github.com/TwoTau/lucas-kanade)
-
 [Original paper (PDF)](https://courses.cs.duke.edu/spring19/compsci527/papers/Lucas.pdf)
 :::
 
