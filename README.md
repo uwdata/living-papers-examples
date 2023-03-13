@@ -1,6 +1,6 @@
-# living-papers-examples
+# Living Papers Examples
 
-Example Living Papers Articles
+Example articles created with the [Living Papers](https://github.com/uwdata/living-papers) framework.
 
 ## Examples
 
