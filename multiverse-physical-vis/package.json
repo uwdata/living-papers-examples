@@ -15,9 +15,8 @@
     "deploy": "cp build ../../docs -r"
   },
   "devDependencies": {
-    "@living-papers/ast": "^0.0.9",
-    "@living-papers/cli": "^0.0.9",
-    "@living-papers/components": "^0.0.9",
+    "@living-papers/cli": "^0.1.0",
+    "@living-papers/components": "^0.1.0",
     "gh-pages": "^5.0.0",
     "mkdirp": "^2.1.5",
     "rimraf": "^4.4.0"
@@ -25,21 +24,16 @@
   "living-papers": {
     "components": [
       {
-        "name": "show-text",
-        "import": "ShowText",
-        "file": "src/show-text.js"
+        "name": "option-text",
+        "import": "OptionText",
+        "file": "src/option-text.js",
+        "css": "src/option-text.css"
       },
       {
-        "name": "tangle-toggle",
-        "import": "TangleToggle",
-        "file": "src/tangle-toggle.js",
-        "css": "src/tangle.css"
-      },
-      {
-        "name": "tangle-options",
-        "import": "TangleOptions",
-        "file": "src/tangle-options.js",
-        "css": "src/tangle.css"
+        "name": "toggle-text",
+        "import": "ToggleText",
+        "file": "src/toggle-text.js",
+        "css": "src/toggle-text.css"
       }
     ]
   }

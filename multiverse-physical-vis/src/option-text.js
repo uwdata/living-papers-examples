@@ -1,33 +1,33 @@
 import { html } from 'lit';
 import { ArticleElement } from '@living-papers/components';
 
-export class TangleOptions extends ArticleElement {
+export class OptionText extends ArticleElement {
   static get properties() {
     return {
-      values: {type: Array},
-      value: {type: String},
       index: {type: Number},
+      options: {type: Array},
       span: {type: Number},
-      display: {
-        converter: {
-          fromAttribute: value => new Function(`return ${value};`)(),
-          toAttribute: value => value.toString(),
-        },
-      },
       title: {type: String},
+      prefix: {type: String},
+      suffix: {type: String}
     };
   }
 
   constructor() {
     super();
-    this.values = [""];
     this.index = 0;
-    this.value = null;
+    this.options = [];
     this.span = 1;
-    this.display = (x) => x;
     this.title = 'Draggable text';
+    this.prefix = '';
+    this.suffix = '';
     this.addEventListener('click', e => e.stopPropagation());
     this.addEventListener('mousedown', e => this.onMouseDown(e));
+  }
+
+  initialChildNodes(nodes) {
+    if (nodes.length) this.options = nodes;
+    this.value = this.options[0];
   }
 
   onMouseDown(e) {
@@ -45,10 +45,10 @@ export class TangleOptions extends ArticleElement {
       e.preventDefault();
       e.stopImmediatePropagation();
       const dx = Math.round((e.x - mx) / this.span);
-      const index = Math.max(Math.min(mv + dx, this.values.length - 1), 0);
+      const index = Math.max(Math.min(mv + dx, this.options.length - 1), 0);
       if (this.index !== index) {
         this.index = index;
-        this.value = this.values[this.index];
+        this.value = this.options[index];
         this.dispatchEvent(new Event('input'));
         this.requestUpdate();
       }
@@ -68,7 +68,7 @@ export class TangleOptions extends ArticleElement {
   }
 
   render() {
-    const value = this.value || this.values[this.index];
-    return html`<span class="tangle-options" title=${this.title}>${this.display(value)}</span>`;
+    const opt = this.options[this.index];
+    return html`<span class="option-text" title=${this.title}>${this.prefix}${opt}${this.suffix}</span>`;
   }
 }
