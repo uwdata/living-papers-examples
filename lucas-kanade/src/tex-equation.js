@@ -14,7 +14,6 @@ export class TexEquation extends TexMath {
     this.mode = 'display';
     this.type = 'align';
     this.nonumber = false;
-    this.definitions = this.hasAttribute('definitions') ? JSON.parse(this.getAttribute('definitions')) : [];
   }
 
   prepareMath() {
